@@ -45,21 +45,24 @@
 	    } ?>
 			<script>
 				jQuery(document).ready(function(){
-					console.log('<?php echo(__FILE__); ?>');
+					//wrap the slide sections of the admin menu in a div.slider
 					jQuery('h4.sliderHeader').css('margin','0').each(function(){
 						jQuery(this).nextUntil('h4.sliderHeader, #submit').wrapAll('<div class="slider" />')
 					});					
 					jQuery('div.slider').not(':first').slideUp();
+					
+					//make the div.sliders into a clickable accordian
 					jQuery('h4.sliderHeader').css('cursor', 'pointer').click(function(){
 						jQuery(this).next('div.slider').slideToggle().siblings('div.slider:visible').slideUp();
 						return false;
 					});
+					
+					//intercept wordpress 'image uploader' and return the clicked image into our url field
 					var imageField;
 					jQuery('.upload_image_button').click(function() {
 					 formfield = jQuery(this).prev('input').attr('name');
 					 tb_show('Add Image to Slider', 'media-upload.php?type=image&amp;TB_iframe=true');
 					 imageField = jQuery(this).prev('input');
-					 console.log(imageField);
 					 return false;
 					});
 					window.send_to_editor = function(html) {
@@ -67,9 +70,9 @@
 					 jQuery(imageField).val(imgurl);
 					 tb_remove();
 					}
+					
 				});
 			</script>
-			
 			<style>
 				.sliderHeader:hover {
     				background-color: #E0E0E0;
@@ -99,10 +102,10 @@
 				
 					<p id="submit" style="width:801px;text-align:right;"><input type="submit" name="Submit" value="Update Options" style="margin-top:10px;" /></p>
 				</form>
-			</div>
-	<?php } 
+			</div><!-- end wrap -->
+	<?php } //end function mcSlider_admin()
 	
-	//load Page scripts and styles for display function
+	//load Page scripts and styles on pages where the  display function is called
 	add_action('wp_print_scripts', 'mcSlider_script_load');
 	function mcSlider_script_load(){
 		if (!is_admin()){
@@ -113,7 +116,6 @@
 	
 	//function to print out slides where you want them in your theme
 	function mcSlider($width, $height){
-		
 		$slidesArray = unserialize(get_option('mcSlider_image'));
         ?>
         <style>
@@ -177,5 +179,5 @@
 		</div>
 	    
 	    <?php
-	}
+	}//end function mcSlider()
 	
