@@ -14,11 +14,11 @@
 	}
 	
 	//load Admin scripts and styles
-	function mcSlider_scripts(){
-		wp_enqueue_script('media-upload');
-		wp_enqueue_script('thickbox');
-		wp_enqueue_script('jquery');
-	}
+	function mcSlider_scripts() {
+        wp_enqueue_script('media-upload');
+        wp_enqueue_script('thickbox');
+        wp_enqueue_script('jquery');
+    }
 	function mcSlider_styles(){
 		wp_enqueue_style('thickbox');
 	}	
@@ -35,16 +35,15 @@
 	
 	//display menu page
 	function mcSlider_admin(){
-		if($_POST['mcSlider_hidden'] == 'Y'){  
-	        //Form data sent
+		//check if page is loading after form submit or just normally
+        if($_POST['mcSlider_hidden'] == 'Y'){  
 	        $count = $_POST["count"]; update_option('mcSlider_count', $count);
 	        $image = $_POST["mcSlider_image"]; update_option('mcSlider_image', serialize($image));
 	    } else {  
-	        //Normal page display  
 	        $count = get_option("mcSlider_count");
 	        $image = unserialize(get_option("mcSlider_image"));
 	    } ?>
-			<script type="text/javascript">
+			<script>
 				jQuery(document).ready(function(){
 					console.log('<?php echo(__FILE__); ?>');
 					jQuery('h4.sliderHeader').css('margin','0').each(function(){
@@ -73,12 +72,12 @@
 			
 			<style>
 				.sliderHeader:hover {
-				background-color: #E0E0E0;
+    				background-color: #E0E0E0;
 				}
 				.sliderHeader {
-				width: 791px;
-				background-color: #EEE;
-				padding: 10px 5px;
+    				width: 791px;
+    				background-color: #EEE;
+    				padding: 10px 5px;
 				}
 			</style>
 		
