@@ -2,7 +2,7 @@
 	/*
 	Plugin Name: Message Creative Slider
 	Plugin URI: http://messagecreative.com
-	Description: A slider manager and displayer
+	Description: A slider manager and displayer using slides plugin at http://slidesjs.com/
 	Author: Message:Creative Team
 	Version: 1.0
 	*/
