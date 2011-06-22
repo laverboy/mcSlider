@@ -5,12 +5,16 @@ jQuery(document).ready(function($){
 		slideSpeed: 800,
 		hoverPause: true,
 		animationStart: function(current){
-			console.log(current);
 			$('.caption').animate({
 				opacity: 0
-			}, 500);		
+			}, 100);		
 		},
 		animationComplete: function(current){
+			$('.caption').animate({
+				opacity: 1
+			}, 600);
+		},
+		slidesLoaded: function(){
 			$('.caption').animate({
 				opacity: 1
 			}, 700);
