@@ -144,6 +144,11 @@
 				padding: 10px;
 				border-top-left-radius: 5px;
 			}
+		   .slides_container div span {
+		       background:#000000;
+		       filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#00000050,endColorstr=#00000050);
+		       zoom: 1;
+		    } 
 			ul.pagination {
 				margin: 0;
 				padding: 0;
