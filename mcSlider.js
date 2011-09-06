@@ -1,7 +1,7 @@
 jQuery(document).ready(function($){
 	$('#slides').slides({
-		play: 5000,
-		pause: 2500,
+		play: 9000,
+		pause: 5000,
 		slideSpeed: 800,
 		hoverPause: true,
 		animationStart: function(current){
