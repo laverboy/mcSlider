@@ -3,6 +3,7 @@ mcSlider Readme
 
 This is a very rough-round-the-edges slider manager plugin for Wordpress.
 It uses the amazing [Slides](http://slidesjs.com/) slideshow plugin for jQuery. 
+
 Check out the to-do list for possible features that it may have.
 
 To Do
