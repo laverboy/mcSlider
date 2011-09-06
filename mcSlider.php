@@ -4,7 +4,7 @@
 	Plugin URI: http://messagecreative.com
 	Description: A slider manager and displayer using slides plugin at http://slidesjs.com/
 	Author: Message:Creative Team
-	Version: 1.0
+	Version: 1.1
 	*/
 	
 	// Make sure we don't expose any info if called directly
@@ -40,8 +40,12 @@
         if($_POST['mcSlider_hidden'] == 'Y'){  
 	        $count = $_POST["count"]; update_option('mcSlider_count', $count);
 	        $image = $_POST["mcSlider_image"]; update_option('mcSlider_image', serialize($image));
+	        $imageW = $_POST["mcSlider_imageWidth"]; update_option('mcSlider_imageWidth', $imageW);
+	        $imageH = $_POST["mcSlider_imageHeight"]; update_option('mcSlider_imageHeight', $imageH);
 	    } else {  
 	        $count = get_option("mcSlider_count");
+	        $imageW = get_option('mcSlider_imageWidth');
+	        $imageH = get_option('mcSlider_imageHeight');
 	        $image = unserialize(get_option("mcSlider_image"));
 	        
 	    } ?>
@@ -72,7 +76,6 @@
 					 jQuery(imageField).val(imgurl);
 					 tb_remove();
 					}
-					
 				});
 			</script>
 			<style>
@@ -80,7 +83,7 @@
     				background-color: #E0E0E0;
 				}
 				.sliderHeader {
-    				width: 791px;
+    				width: <?= $imageW - 10 ?>px;
     				background-color: #EEE;
     				padding: 10px 5px;
 				}
@@ -88,23 +91,30 @@
 		
 			<div class="wrap">
 				<h2>Message:Creative Slider Manager</h2>
-				<p><em>Please remember to <a href="http://www.picnik.com/app#/edit">crop your photos to 940x320 pixels</a> before you upload them and to select full size in the upload screen.</em></p>
 				<form name="mcSlider_form" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
 					<input type="hidden" name="mcSlider_hidden" value="Y"> 
-					<p><label for="count">How many slides would you like:</label> <input type="text" name="count" value="<?php echo $count ?>"> <em>Press Return after</em> </p>
+					<p><label for="count">How many slides would you like:</label> <input style="width:40px;" type="text" name="count" value="<?php echo $count ?>"> <em>Press Return after</em></p>
+					<p>
+						<label>What size would you like your images:</label> 
+						<input style="width:40px;" type="text" name="mcSlider_imageWidth" value="<?php echo $imageW ?>">px
+						&nbsp;x&nbsp; 
+						<input style="width:40px;" type="text" name="mcSlider_imageHeight" value="<?php echo $imageH ?>">px 
+						&nbsp;<em>Press Return after</em><br />
+						<em>Don't forget to crop your images to what ever size you choose here!</em> 
+					</p>
 					<?php for ($i=1; $i <= $count; $i++ ) { ?>
 						<h4 class="sliderHeader">Slider Image <?= $i; ?></h4>
-						<p><input class="upload_image" type="text" name="mcSlider_image[<?= $i; ?>][image]" value="<?php echo $image[$i]['image']; ?>" style="width:700px;">
-						<input class="upload_image_button" type="button" value="Upload Image"><br />Enter an URL or upload an image
+						<p><input class="upload_image" type="text" name="mcSlider_image[<?= $i; ?>][image]" value="<?php echo $image[$i]['image']; ?>" style="width:<?= $imageW - 100 ?>px;">
+						<input class="upload_image_button" type="button" value="Upload Image"><br />Enter a URL or upload an image
 						<br /><?php print_r($id); ?>
 						</p>
 						<textarea name="mcSlider_image[<?= $i; ?>][text]" rows="11" cols="30" style="float:left;width:190px;"><?php echo $image[$i]['text']; ?></textarea>
-						<p style="margin-left:200px;background:#aeaeae;width:600px;height:205px">
-							<img src="<?php echo $image[$i]['image']; ?>" width="600" height="205">
+						<p style="margin-left:200px;background:#aeaeae;width:<?= $imageW ?>px;height:<?= $imageH ?>px">
+							<img src="<?= plugins_url('timthumb.php', __FILE__); ?>?src=<?php echo $image[$i]['image']; ?>&amp;w=<?= $imageW ?>&amp;h=<?= $imageH ?>" width="<?= $imageW ?>" height="<?= $imageH ?>">
 						</p>
 					<?php } ?>
 				
-					<p id="submit" style="width:801px;text-align:right;"><input type="submit" name="Submit" value="Update Options" style="margin-top:10px;" /></p>
+					<p id="submit" style="width:<?= $imageW ?>px;text-align:right;"><input type="submit" name="Submit" value="Update Options" style="margin-top:10px;" /></p>
 				</form>
 			</div><!-- end wrap -->
 	<?php } //end function mcSlider_admin()
@@ -119,10 +129,19 @@
 	}
 	
 	//function to print out slides where you want them in your theme
-	function mcSlider($width, $height){
+	function mcSlider(){
 		$slidesArray = unserialize(get_option('mcSlider_image'));
+		$width = get_option('mcSlider_imageWidth');
+        $height = get_option('mcSlider_imageHeight');
+        $slideCount = 0;
+        foreach($slidesArray as $slide){
+        	if($slide['image']){$slideCount++;}
+        }
         ?>
         <style>
+        	#slides {
+        		overflow: hidden;
+        	}
         	.slides_container {
 				width: <?= $width ?>px;
 				height: <?= $height ?>px;
@@ -150,17 +169,16 @@
 		       zoom: 1;
 		    } 
 			ul.pagination {
-				margin: 0;
+				margin: 5px auto 0;
 				padding: 0;
 				text-align: center;
-				position: absolute;
 				z-index: 50;
-				left: 48%;
-				margin-top: 9px;
+				width: <?= $slideCount * 15 ?>px;
 			}
 			ul.pagination li {
 				float: left;
-				margin-right: 3px;
+				margin: 0 3px 0 0;
+				list-style: none;
 			}
 			.pagination li a {
 				display:block;
@@ -179,9 +197,9 @@
         <div id="slides"><!-- a bit of unnecessary markup for use by the slides plugin unfortunately -->
 	        <div class="slides_container">
 	        	<?php foreach($slidesArray as $slide){ 
-	        		if ($slide['image']){ ?>
-						<div>
-				        	<img src="<?= $slide['image']; ?>">
+	        		if ($slide['image']){ $slideCount++;?>
+	        			<div>
+				        	<img src="<?= plugins_url('timthumb.php', __FILE__); ?>?src=<?= $slide['image']; ?>&amp;w=<?= $width; ?>&amp;h=<?= $height; ?>">
 				        	<span class="caption"><?= $slide['text']; ?></span>
 				        </div>   
 				    <?php }//end if
