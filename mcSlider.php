@@ -155,6 +155,7 @@
 		$slidesArray = unserialize(get_option('mcSlider_image'));
 		$width = get_option('mcSlider_imageWidth');
         $height = get_option('mcSlider_imageHeight');
+        $captions = get_option('mcSlider_captions');
         $slideCount = 0;
         foreach($slidesArray as $slide){
         	if($slide['image']){$slideCount++;}
@@ -173,6 +174,9 @@
 				height: <?= $height ?>px;
 				display: block;
 			}
+			
+			/* Check if captions option has been ticked and show captions if it has */
+			<?php if($captions == 'true'){ ?>
 			.slides_container div span {
 				position: absolute;
 				opacity: 0;
@@ -184,12 +188,14 @@
 				width: 215px;
 				padding: 10px;
 				border-top-left-radius: 5px;
+				background:#000000;
+				filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#00000050,endColorstr=#00000050);
+				zoom: 1;
 			}
-		   .slides_container div span {
-		       background:#000000;
-		       filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#00000050,endColorstr=#00000050);
-		       zoom: 1;
-		    } 
+			<?php }else{ ?>
+			.slides_container div span {display: none;}
+			<?php } ?>
+			
 			ul.pagination {
 				margin: 5px auto 0;
 				padding: 0;
