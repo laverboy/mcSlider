@@ -42,13 +42,17 @@
 	        $image = $_POST["mcSlider_image"]; update_option('mcSlider_image', serialize($image));
 	        $imageW = $_POST["mcSlider_imageWidth"]; update_option('mcSlider_imageWidth', $imageW);
 	        $imageH = $_POST["mcSlider_imageHeight"]; update_option('mcSlider_imageHeight', $imageH);
+	        $captions = $_POST["captions"]; update_option('mcSlider_captions', $captions);
 	    } else {  
 	        $count = get_option("mcSlider_count");
 	        $imageW = get_option('mcSlider_imageWidth');
 	        $imageH = get_option('mcSlider_imageHeight');
 	        $image = unserialize(get_option("mcSlider_image"));
+	        $captions = get_option('mcSlider_captions');
 	        
-	    } ?>
+	    } 
+	    if ($captions == 'true'){ $checked = "checked";}
+	    ?>
 			<script>
 				jQuery(document).ready(function(){
 					//wrap the slide sections of the admin menu in a div.slider
@@ -83,10 +87,25 @@
     				background-color: #E0E0E0;
 				}
 				.sliderHeader {
-    				width: <?= $imageW - 10 ?>px;
+    				width: <?= $imageW - 10 + 200 ?>px;
     				background-color: #EEE;
     				padding: 10px 5px;
 				}
+				.sliderPreview {margin-left: 200px;}
+				#submit { 
+					width:<?= $imageW + 200 ?>px;
+					text-align:right;
+				}
+				<?php if($captions != 'true'){?>
+				.sliderHeader {width: <?= $imageW - 10; ?>px;}
+				.caption {
+					display: none;
+				}
+				.sliderPreview {
+					margin-left: 0;
+				}
+				#submit {width:<?= $imageW ?>px;}
+				<?php } ?>				
 			</style>
 		
 			<div class="wrap">
@@ -102,19 +121,22 @@
 						&nbsp;<em>Press Return after</em><br />
 						<em>Don't forget to crop your images to what ever size you choose here!</em> 
 					</p>
+					<p><label for="captions">Do you want captions:</label> <input type="checkbox" name="captions" value="true" <?= $checked; ?>></p>
+					<p class="submit" style="width:450px;text-align:right;padding:0;margin-bottom:20px;"><input type="submit" name="Submit" value="Update Options" style="margin-top:10px;" /></p>
 					<?php for ($i=1; $i <= $count; $i++ ) { ?>
 						<h4 class="sliderHeader">Slider Image <?= $i; ?></h4>
-						<p><input class="upload_image" type="text" name="mcSlider_image[<?= $i; ?>][image]" value="<?php echo $image[$i]['image']; ?>" style="width:<?= $imageW - 100 ?>px;">
-						<input class="upload_image_button" type="button" value="Upload Image"><br />Enter a URL or upload an image
-						<br /><?php print_r($id); ?>
+						<p>
+							<input class="upload_image" type="text" name="mcSlider_image[<?= $i; ?>][image]" value="<?php echo $image[$i]['image']; ?>" style="width:<?= $imageW - 100 ?>px;">
+							<input class="upload_image_button" type="button" value="Upload Image"><br />
+							Enter a URL or upload an image
 						</p>
-						<textarea name="mcSlider_image[<?= $i; ?>][text]" rows="11" cols="30" style="float:left;width:190px;"><?php echo $image[$i]['text']; ?></textarea>
-						<p style="margin-left:200px;background:#aeaeae;width:<?= $imageW ?>px;height:<?= $imageH ?>px">
+						<textarea class="caption" name="mcSlider_image[<?= $i; ?>][text]" rows="11" cols="30" style="float:left;width:190px;"><?php echo $image[$i]['text']; ?></textarea>
+						<p class="sliderPreview" style="background:#aeaeae;width:<?= $imageW ?>px;height:<?= $imageH ?>px">
 							<img src="<?= plugins_url('timthumb.php', __FILE__); ?>?src=<?php echo $image[$i]['image']; ?>&amp;w=<?= $imageW ?>&amp;h=<?= $imageH ?>" width="<?= $imageW ?>" height="<?= $imageH ?>">
 						</p>
 					<?php } ?>
 				
-					<p id="submit" style="width:<?= $imageW ?>px;text-align:right;"><input type="submit" name="Submit" value="Update Options" style="margin-top:10px;" /></p>
+					<p id="submit" class="submit" style=""><input type="submit" name="Submit" value="Update Options" style="margin-top:10px;" /></p>
 				</form>
 			</div><!-- end wrap -->
 	<?php } //end function mcSlider_admin()
