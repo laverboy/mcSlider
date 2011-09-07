@@ -1,20 +1,20 @@
-jQuery(document).ready(function($){
+jQuery(document).ready(function($) {
 	$('#slides').slides({
 		play: 9000,
 		pause: 5000,
 		slideSpeed: 800,
 		hoverPause: true,
-		animationStart: function(current){
+		animationStart: function(current) {
 			$('.caption').animate({
 				opacity: 0
-			}, 100);		
+			}, 100);
 		},
-		animationComplete: function(current){
+		animationComplete: function(current) {
 			$('.caption').animate({
 				opacity: 1
 			}, 600);
 		},
-		slidesLoaded: function(){
+		slidesLoaded: function() {
 			$('.caption').animate({
 				opacity: 1
 			}, 700);

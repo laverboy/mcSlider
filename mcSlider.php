@@ -162,18 +162,9 @@
         }
         ?>
         <style>
-        	#slides {
-        		overflow: hidden;
-        	}
-        	.slides_container {
-				width: <?= $width ?>px;
-				height: <?= $height ?>px;
-			}
-			.slides_container div {
-				width: <?= $width ?>px;
-				height: <?= $height ?>px;
-				display: block;
-			}
+        	#slides { overflow: hidden; }
+        	.slides_container { width: <?= $width ?>px; height: <?= $height ?>px;}
+			.slides_container div { width: <?= $width ?>px; height: <?= $height ?>px; display: block;}
 			
 			/* Check if captions option has been ticked and show captions if it has */
 			<?php if($captions == 'true'){ ?>
