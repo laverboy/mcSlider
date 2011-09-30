@@ -72,13 +72,13 @@
 						return false;
 					});
 					
-					$('#mcOptionsMenu').hide();
+					$('#mcOptionsMenu').parent().hide();
 					$('.showMenu').click(function(){
-						$('#mcOptionsMenu').slideToggle();
+						$('#mcOptionsMenu').parent().slideToggle();
 						$('.showMenu').text($('.showMenu').text() == 'Show Settings' ? 'Hide Settings' : 'Show Settings');		
 					});
 					<?php if(!$count){ ?>
-					$('#mcOptionsMenu').show();
+					$('#mcOptionsMenu').parent().show();
 					$('.showMenu').text('Hide Settings');
 					<?php } ?>
 					
@@ -124,7 +124,7 @@
 			<div class="wrap">
 				<h2><span style="color:#A7CD54;">Message:<strong>Creative</strong></span> Slider Manager <a href="#" onclick="return false" class="showMenu">Show Settings</a></h2>
 				<form name="mcSlider_form" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
-					<table id="mcOptionsMenu" class="form-table">
+				<div>	<table id="mcOptionsMenu" class="form-table" style="margin-bottom:20px;">
 						<input type="hidden" name="mcSlider_hidden" value="Y"> 
 						<tr>
 							<th scope="row"><label for="count">How many slides would you like:</label></th>
@@ -162,7 +162,7 @@
 						<tr>
 							<td><input class="button-primary" type="submit" name="Submit" value="Update Options" style="margin-top:10px;" /></td>
 						</tr>
-					</table><!-- end mcOptionsMenus -->
+					</table></div><!-- end mcOptionsMenus -->
 					
 					<?php for ($i=1; $i <= $count; $i++ ) { ?>
 						<h4 class="sliderHeader">Slider Image <?= $i; ?></h4>
