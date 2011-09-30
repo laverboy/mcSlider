@@ -46,12 +46,14 @@
 	        $imageW = $_POST["mcSlider_imageWidth"]; update_option('mcSlider_imageWidth', $imageW);
 	        $imageH = $_POST["mcSlider_imageHeight"]; update_option('mcSlider_imageHeight', $imageH);
 	        $captions = $_POST["captions"]; update_option('mcSlider_captions', $captions);
+	        $effect = $_POST["effect"]; update_option('mcSlider_effect', $effect);
 	    } else {  
 	        $count = get_option("mcSlider_count");
 	        $imageW = get_option('mcSlider_imageWidth');
 	        $imageH = get_option('mcSlider_imageHeight');
 	        $image = unserialize(get_option("mcSlider_image"));
 	        $captions = get_option('mcSlider_captions');
+	        $effect = get_option('mcSlider_effect');
 	        
 	    } 
 	    if ($captions == 'true'){ $checked = "checked";}
@@ -125,6 +127,14 @@
 						<em>Don't forget to crop your images to what ever size you choose here!</em> 
 					</p>
 					<p><label for="captions">Do you want captions:</label> <input type="checkbox" name="captions" value="true" <?= $checked; ?>></p>
+					<p>
+						<label for="effect">Which effect would you like:</label> 
+						<select name="effect">
+							<option value="slide" <?php if($effect == "slide") echo "selected='selected'" ?>>Slide</option>
+							<option value="fade"<?php if($effect == "fade") echo "selected='selected'" ?>>Fade</option>
+						</select>
+						<?= $effect; ?>
+					</p>
 					<p class="submit" style="width:450px;text-align:right;padding:0;margin-bottom:20px;"><input type="submit" name="Submit" value="Update Options" style="margin-top:10px;" /></p>
 					<?php for ($i=1; $i <= $count; $i++ ) { ?>
 						<h4 class="sliderHeader">Slider Image <?= $i; ?></h4>
@@ -152,8 +162,7 @@
 	add_action('wp_print_scripts', 'mcSlider_script_load');
 	function mcSlider_script_load(){
 		if (!is_admin()){
-			wp_enqueue_script('slides', plugins_url('slides.min.jquery.js', __FILE__), array('jquery'), '', true);
-			wp_enqueue_script('mcSliderjs', plugins_url('mcSlider.js', __FILE__), array('jquery'), '', true);	
+			wp_enqueue_script('slides', plugins_url('slides.min.jquery.js', __FILE__), array('jquery'), '', true);	
 		}
 	}
 	
@@ -165,6 +174,7 @@
 		$width = get_option('mcSlider_imageWidth');
         $height = get_option('mcSlider_imageHeight');
         $captions = get_option('mcSlider_captions');
+        $effect = get_option('mcSlider_effect');
         $slideCount = 0;
         foreach($slidesArray as $slide){
         	if($slide['image']){$slideCount++;}
@@ -236,6 +246,38 @@
 				 }//end foreach ?>
 		    </div>
 		</div>
+		<script>
+			jQuery(document).ready(function($) {
+	
+				var args = {
+					play: 9000,
+					pause: 5000,
+					slideSpeed: 800,
+					effect: 'slide',
+					crossfade: true,
+					hoverPause: true,
+					animationStart: function(current) {
+						$('.caption').animate({
+							opacity: 0
+						}, 100);
+					},
+					animationComplete: function(current) {
+						$('.caption').animate({
+							opacity: 1
+						}, 600);
+					},
+					slidesLoaded: function() {
+						$('.caption').animate({
+							opacity: 1
+						}, 700);
+					}
+				};
+				<?php if($effect == 'fade') echo "args.effect = 'fade';"; ?>
+				console.log(args);
+				$('#slides').slides(args);
+			
+			});
+		</script>
 	    
 	    <?php
 	}//end function mcSlider()
