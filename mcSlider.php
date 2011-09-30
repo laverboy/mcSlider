@@ -124,28 +124,45 @@
 			<div class="wrap">
 				<h2><span style="color:#A7CD54;">Message:<strong>Creative</strong></span> Slider Manager <a href="#" onclick="return false" class="showMenu">Show Settings</a></h2>
 				<form name="mcSlider_form" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
-					<div id="mcOptionsMenu">
+					<table id="mcOptionsMenu" class="form-table">
 						<input type="hidden" name="mcSlider_hidden" value="Y"> 
-						<p><label for="count">How many slides would you like:</label> <input style="width:40px;" type="text" name="count" value="<?php echo $count ?>"> <em>Press Return after</em></p>
-						<p>
-							<label>What size would you like your images:</label> 
-							<input style="width:40px;" type="text" name="mcSlider_imageWidth" value="<?php echo $imageW ?>">px
-							&nbsp;x&nbsp; 
-							<input style="width:40px;" type="text" name="mcSlider_imageHeight" value="<?php echo $imageH ?>">px 
-							&nbsp;<em>Press Return after</em><br />
-							<em>Don't forget to crop your images to what ever size you choose here!</em> 
-						</p>
-						<p><label for="captions">Do you want captions:</label> <input type="checkbox" name="captions" value="true" <?= $checked; ?>></p>
-						<p>
-							<label for="effect">Which effect would you like:</label> 
-							<select name="effect">
-								<option value="slide" <?php if($effect == "slide") echo "selected='selected'" ?>>Slide</option>
-								<option value="fade"<?php if($effect == "fade") echo "selected='selected'" ?>>Fade</option>
-							</select>
-							<?= $effect; ?>
-						</p>
-						<p class="submit" style="width:450px;text-align:right;padding:0;margin-bottom:20px;"><input type="submit" name="Submit" value="Update Options" style="margin-top:10px;" /></p>
-					</div><!-- end mcOptionsMenus -->
+						<tr>
+							<th scope="row"><label for="count">How many slides would you like:</label></th>
+							<td><input style="width:40px;" type="text" name="count" value="<?php echo $count ?>"> <em>Press Return after</em></p></td>
+						</tr>
+						<tr>
+							<th><label>What size would you like your images:</label> </th>
+							<td>
+								<input style="width:40px;" type="text" name="mcSlider_imageWidth" value="<?php echo $imageW ?>">px
+								&nbsp;x&nbsp; 
+								<input style="width:40px;" type="text" name="mcSlider_imageHeight" value="<?php echo $imageH ?>">px 
+								&nbsp;<em>Press Return after</em><br />
+								<em>Don't forget to crop your images to what ever size you choose here!</em> 
+							</td>
+						</tr>
+						<tr>
+							<th>
+								<label for="captions">Do you want captions:</label>
+							</th>
+							<td>
+								<input type="checkbox" name="captions" value="true" <?= $checked; ?>>
+							</td>
+						</tr>
+						<tr>
+							<th>
+								<label for="effect">Which effect would you like:</label> 
+							</th>
+							<td>
+								<select name="effect">
+									<option value="slide" <?php if($effect == "slide") echo "selected='selected'" ?>>Slide</option>
+									<option value="fade"<?php if($effect == "fade") echo "selected='selected'" ?>>Fade</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td><input class="button-primary" type="submit" name="Submit" value="Update Options" style="margin-top:10px;" /></td>
+						</tr>
+					</table><!-- end mcOptionsMenus -->
 					
 					<?php for ($i=1; $i <= $count; $i++ ) { ?>
 						<h4 class="sliderHeader">Slider Image <?= $i; ?></h4>
