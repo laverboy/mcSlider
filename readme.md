@@ -14,4 +14,5 @@ To Do
 * <del>rely on user to provide slider size images but use timthumb.php to resize images that are too big</del>
 * allow a nice way for images to be resized maybe through [jcrop](http://deepliquid.com/content/Jcrop.html) plugin
 * <del>allow user to choose whether they have captions or not and to enter caption for individual sliders</del>
+* <del>allow links on a per slide basis</del>
 
