@@ -99,35 +99,31 @@
 				});
 			</script>
 			<style>
+				.wrap {width: <?= $imageW + 200; ?>px;}
+				a.showMenu { margin-left: 20px;font-size: 12px;}
 				.sliderHeader:hover {
     				background-color: #E0E0E0;
 				}
 				.sliderHeader {
-    				width: <?= $imageW - 10 + 200 ?>px;
     				background-color: #EEE;
     				padding: 10px 5px;
 				}
 				.sliderPreview {margin-left: 200px;}
-				#submit { 
-					width:<?= $imageW + 200 ?>px;
-					text-align:right;
-				}
+				#submit { text-align:right; }
 				<?php if($captions != 'true'){?>
-				.sliderHeader {width: <?= $imageW - 10; ?>px;}
+				.wrap {width: <?= $imageW; ?>px;}
 				.caption {
 					display: none;
 				}
 				.sliderPreview {
 					margin-left: 0;
 				}
-				#submit {width:<?= $imageW ?>px;}
 				<?php } ?>				
 			</style>
 		
 			<div class="wrap">
-				<h2><span style="color:#A7CD54;">Message:<strong>Creative</strong></span> Slider Manager</h2>
+				<h2><span style="color:#A7CD54;">Message:<strong>Creative</strong></span> Slider Manager <a href="#" onclick="return false" class="showMenu">Show Settings</a></h2>
 				<form name="mcSlider_form" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
-					<div style="padding:12px 0;"><p style="margin:0;"><a href="#" onclick="return false" class="showMenu">Show Settings</a></p></div>
 					<div id="mcOptionsMenu">
 						<input type="hidden" name="mcSlider_hidden" value="Y"> 
 						<p><label for="count">How many slides would you like:</label> <input style="width:40px;" type="text" name="count" value="<?php echo $count ?>"> <em>Press Return after</em></p>
