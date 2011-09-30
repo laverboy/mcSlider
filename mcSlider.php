@@ -32,8 +32,11 @@
 	function mcSlider_admin_actions(){
 		add_submenu_page('upload.php', 'MessageCreative Slider Manager', 'Slider Manager', 'manage_options', 'mc_slider_manager', 'mcSlider_admin');
 	}
-	
-	//display menu page
+
+
+/* ----------------------------------------------------------------------------------------------------- */
+/* ---------------------------------------- Display Menu Page ------------------------------------------ */
+/* ----------------------------------------------------------------------------------------------------- */
 	function mcSlider_admin(){
 		global $wpdb;
 		//check if page is loading after form submit or just normally
@@ -134,6 +137,10 @@
 						<p class="sliderPreview" style="background:#aeaeae;width:<?= $imageW ?>px;height:<?= $imageH ?>px">
 							<img src="<?= plugins_url('timthumb.php', __FILE__); ?>?src=<?php echo $image[$i]['image']; ?>&amp;w=<?= $imageW ?>&amp;h=<?= $imageH ?>" width="<?= $imageW ?>" height="<?= $imageH ?>">
 						</p>
+						<p>
+							<input class="add_link" type="text" name="mcSlider_image[<?= $i; ?>][link]" value="<?php echo $image[$i]['link']; ?>" style="width:<?= $imageW - 100 ?>px;"><br />
+							Add a Link for this image (<em>Needs full URL including http://</em>)
+						</p>
 					<?php } ?>
 				
 					<p id="submit" class="submit" style=""><input type="submit" name="Submit" value="Update Options" style="margin-top:10px;" /></p>
@@ -150,7 +157,9 @@
 		}
 	}
 	
-	//function to print out slides where you want them in your theme
+/* ----------------------------------------------------------------------------------------------------- */
+/* ---------------------------------------- In-Page Function ------------------------------------------- */
+/* ----------------------------------------------------------------------------------------------------- */
 	function mcSlider(){
 		$slidesArray = unserialize(get_option('mcSlider_image'));
 		$width = get_option('mcSlider_imageWidth');
@@ -218,8 +227,10 @@
 	        	<?php foreach($slidesArray as $slide){ 
 	        		if ($slide['image']){ $slideCount++;?>
 	        			<div>
-				        	<img src="<?= plugins_url('timthumb.php', __FILE__); ?>?src=<?= $slide['image']; ?>&amp;w=<?= $width; ?>&amp;h=<?= $height; ?>">
-				        	<span class="caption"><?= $slide['text']; ?></span>
+	        				<?php if($slide['link']) echo("<a href='". $slide['link']. "'>"); ?>
+					        	<img src="<?= plugins_url('timthumb.php', __FILE__); ?>?src=<?= $slide['image']; ?>&amp;w=<?= $width; ?>&amp;h=<?= $height; ?>">
+					        	<span class="caption"><?= $slide['text']; ?></span>
+					        <?php if($slide['link']) echo("</a>"); ?>
 				        </div>   
 				    <?php }//end if
 				 }//end foreach ?>
