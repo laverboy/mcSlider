@@ -59,30 +59,41 @@
 	    if ($captions == 'true'){ $checked = "checked";}
 	    ?>
 			<script>
-				jQuery(document).ready(function(){
+				jQuery(document).ready(function($){
 					//wrap the slide sections of the admin menu in a div.slider
-					jQuery('h4.sliderHeader').css('margin','0').each(function(){
-						jQuery(this).nextUntil('h4.sliderHeader, #submit').wrapAll('<div class="slider" />')
+					$('h4.sliderHeader').css('margin','0').each(function(){
+						$(this).nextUntil('h4.sliderHeader, #submit').wrapAll('<div class="slider" />')
 					});					
 					jQuery('div.slider').not(':first').slideUp();
 					
 					//make the div.sliders into a clickable accordian
-					jQuery('h4.sliderHeader').css('cursor', 'pointer').click(function(){
-						jQuery(this).next('div.slider').slideToggle().siblings('div.slider:visible').slideUp();
+					$('h4.sliderHeader').css('cursor', 'pointer').click(function(){
+						$(this).next('div.slider').slideToggle().siblings('div.slider:visible').slideUp();
 						return false;
 					});
 					
+					$('#mcOptionsMenu').hide();
+					$('.showMenu').click(function(){
+						$('#mcOptionsMenu').slideToggle();
+						$('.showMenu').text($('.showMenu').text() == 'Show Settings' ? 'Hide Settings' : 'Show Settings');		
+					});
+					<?php if(!$count){ ?>
+					$('#mcOptionsMenu').show();
+					$('.showMenu').text('Hide Settings');
+					<?php } ?>
+					
+					
 					//intercept wordpress 'image uploader' and return the clicked image into our url field
 					var imageField;
-					jQuery('.upload_image_button').click(function() {
-					 formfield = jQuery(this).prev('input').attr('name');
+					$('.upload_image_button').click(function() {
+					 formfield = $(this).prev('input').attr('name');
 					 tb_show('Add Image to Slider', 'media-upload.php?type=image&amp;TB_iframe=true');
-					 imageField = jQuery(this).prev('input');
+					 imageField = $(this).prev('input');
 					 return false;
 					});
 					window.send_to_editor = function(html) {
-					 imgurl = jQuery('img',html).attr('src');
-					 jQuery(imageField).val(imgurl);
+					 imgurl = $('img',html).attr('src');
+					 $(imageField).val(imgurl);
 					 tb_remove();
 					}
 				});
@@ -114,28 +125,32 @@
 			</style>
 		
 			<div class="wrap">
-				<h2>Message:Creative Slider Manager</h2>
+				<h2><span style="color:#A7CD54;">Message:<strong>Creative</strong></span> Slider Manager</h2>
 				<form name="mcSlider_form" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
-					<input type="hidden" name="mcSlider_hidden" value="Y"> 
-					<p><label for="count">How many slides would you like:</label> <input style="width:40px;" type="text" name="count" value="<?php echo $count ?>"> <em>Press Return after</em></p>
-					<p>
-						<label>What size would you like your images:</label> 
-						<input style="width:40px;" type="text" name="mcSlider_imageWidth" value="<?php echo $imageW ?>">px
-						&nbsp;x&nbsp; 
-						<input style="width:40px;" type="text" name="mcSlider_imageHeight" value="<?php echo $imageH ?>">px 
-						&nbsp;<em>Press Return after</em><br />
-						<em>Don't forget to crop your images to what ever size you choose here!</em> 
-					</p>
-					<p><label for="captions">Do you want captions:</label> <input type="checkbox" name="captions" value="true" <?= $checked; ?>></p>
-					<p>
-						<label for="effect">Which effect would you like:</label> 
-						<select name="effect">
-							<option value="slide" <?php if($effect == "slide") echo "selected='selected'" ?>>Slide</option>
-							<option value="fade"<?php if($effect == "fade") echo "selected='selected'" ?>>Fade</option>
-						</select>
-						<?= $effect; ?>
-					</p>
-					<p class="submit" style="width:450px;text-align:right;padding:0;margin-bottom:20px;"><input type="submit" name="Submit" value="Update Options" style="margin-top:10px;" /></p>
+					<div style="padding:12px 0;"><p style="margin:0;"><a href="#" onclick="return false" class="showMenu">Show Settings</a></p></div>
+					<div id="mcOptionsMenu">
+						<input type="hidden" name="mcSlider_hidden" value="Y"> 
+						<p><label for="count">How many slides would you like:</label> <input style="width:40px;" type="text" name="count" value="<?php echo $count ?>"> <em>Press Return after</em></p>
+						<p>
+							<label>What size would you like your images:</label> 
+							<input style="width:40px;" type="text" name="mcSlider_imageWidth" value="<?php echo $imageW ?>">px
+							&nbsp;x&nbsp; 
+							<input style="width:40px;" type="text" name="mcSlider_imageHeight" value="<?php echo $imageH ?>">px 
+							&nbsp;<em>Press Return after</em><br />
+							<em>Don't forget to crop your images to what ever size you choose here!</em> 
+						</p>
+						<p><label for="captions">Do you want captions:</label> <input type="checkbox" name="captions" value="true" <?= $checked; ?>></p>
+						<p>
+							<label for="effect">Which effect would you like:</label> 
+							<select name="effect">
+								<option value="slide" <?php if($effect == "slide") echo "selected='selected'" ?>>Slide</option>
+								<option value="fade"<?php if($effect == "fade") echo "selected='selected'" ?>>Fade</option>
+							</select>
+							<?= $effect; ?>
+						</p>
+						<p class="submit" style="width:450px;text-align:right;padding:0;margin-bottom:20px;"><input type="submit" name="Submit" value="Update Options" style="margin-top:10px;" /></p>
+					</div><!-- end mcOptionsMenus -->
+					
 					<?php for ($i=1; $i <= $count; $i++ ) { ?>
 						<h4 class="sliderHeader">Slider Image <?= $i; ?></h4>
 						<p>
