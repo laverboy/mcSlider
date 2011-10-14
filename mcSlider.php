@@ -42,7 +42,7 @@
 		//check if page is loading after form submit or just normally
         if($_POST['mcSlider_hidden'] == 'Y'){  
 	        $count = $_POST["count"]; update_option('mcSlider_count', $count);
-	        $image = $_POST["mcSlider_image"]; update_option('mcSlider_image', serialize($image));
+	        $image = $_POST["mcSlider_image"]; update_option('mcSlider_image',$image);
 	        $imageW = $_POST["mcSlider_imageWidth"]; update_option('mcSlider_imageWidth', $imageW);
 	        $imageH = $_POST["mcSlider_imageHeight"]; update_option('mcSlider_imageHeight', $imageH);
 	        $captions = $_POST["captions"]; update_option('mcSlider_captions', $captions);
@@ -51,7 +51,7 @@
 	        $count = get_option("mcSlider_count");
 	        $imageW = get_option('mcSlider_imageWidth');
 	        $imageH = get_option('mcSlider_imageHeight');
-	        $image = unserialize(get_option("mcSlider_image"));
+	        $image = get_option("mcSlider_image");
 	        $captions = get_option('mcSlider_captions');
 	        $effect = get_option('mcSlider_effect');
 	        
@@ -198,7 +198,7 @@
 /* ---------------------------------------- In-Page Function ------------------------------------------- */
 /* ----------------------------------------------------------------------------------------------------- */
 	function mcSlider(){
-		$slidesArray = unserialize(get_option('mcSlider_image'));
+		$slidesArray = get_option('mcSlider_image');
 		$width = get_option('mcSlider_imageWidth');
         $height = get_option('mcSlider_imageHeight');
         $captions = get_option('mcSlider_captions');
