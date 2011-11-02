@@ -38,6 +38,7 @@
 /* ---------------------------------------- Display Menu Page ------------------------------------------ */
 /* ----------------------------------------------------------------------------------------------------- */
 	function mcSlider_admin(){
+
 		global $wpdb;
 		//check if page is loading after form submit or just normally
         if($_POST['mcSlider_hidden'] == 'Y'){  
@@ -235,7 +236,7 @@
 			<?php } ?>
 			
 			ul.pagination {
-				margin: 5px auto 0;
+				margin: 10px auto 0;
 				padding: 0;
 				text-align: center;
 				z-index: 50;
