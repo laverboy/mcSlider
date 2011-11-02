@@ -51,6 +51,7 @@
 	    } else {  
 	        $count = get_option("mcSlider_count");
 	        $imageW = get_option('mcSlider_imageWidth');
+	        $imageW = (empty($imageW)) ? '600' : $imageW;
 	        $imageH = get_option('mcSlider_imageHeight');
 	        $image = get_option("mcSlider_image");
 	        $captions = get_option('mcSlider_captions');
