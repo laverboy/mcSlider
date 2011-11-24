@@ -280,8 +280,8 @@
 			jQuery(document).ready(function($) {
 	
 				var args = {
-					play: 9000,
-					pause: 5000,
+					play: 3000,
+					pause: 3000,
 					slideSpeed: 800,
 					effect: 'slide',
 					crossfade: true,
@@ -303,7 +303,6 @@
 					}
 				};
 				<?php if($effect == 'fade') echo "args.effect = 'fade';"; ?>
-				console.log(args);
 				$('#slides').slides(args);
 			
 			});
