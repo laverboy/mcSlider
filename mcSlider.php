@@ -166,8 +166,12 @@
 						</li>
 					<?php } ?>
 					</ul>
-				
-					<p id="submit" class="submit" style=""><input type="submit" name="Submit" value="Update Options" style="margin-top:10px;" /></p>
+					<p class="help" style="float:left;">(Drag to re-arrange)</p>
+					<p id="submit" class="submit" >
+
+						<input class="button-primary" type="submit" name="Submit" value="Update Options" style="margin-top:10px;" />
+					</p>
+					
 				</form>
 			</div><!-- end wrap -->
 	<?php } //end function mcSlider_admin()
