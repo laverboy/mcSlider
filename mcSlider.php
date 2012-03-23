@@ -18,7 +18,13 @@
         wp_enqueue_script('media-upload');
         wp_enqueue_script('thickbox');
         wp_enqueue_script('jquery');
-        wp_enqueue_script('slides', plugins_url('mcSlider.js', __FILE__), array('jquery'), '', true);
+        wp_enqueue_script('jquery-ui-core');
+        wp_enqueue_script('jquery-ui-widget');
+        wp_enqueue_script('jquery-ui-mouse');
+        wp_enqueue_script('jquery-ui-draggable');
+        wp_enqueue_script('jquery-ui-droppable');
+        wp_enqueue_script('jquery-ui-sortable');
+        wp_enqueue_script('mcslider', plugins_url('mcSlider.js', __FILE__), array('jquery'), '', true);
     }
 	function mcSlider_styles(){
 		wp_enqueue_style('thickbox');
@@ -56,8 +62,7 @@
 	        $imageH = get_option('mcSlider_imageHeight');
 	        $image = get_option("mcSlider_image");
 	        $captions = get_option('mcSlider_captions');
-	        $effect = get_option('mcSlider_effect');
-	        
+	        $effect = get_option('mcSlider_effect'); 
 	    } 
 	    if ($captions == 'true'){ $checked = "checked";}
 	    ?>
@@ -75,12 +80,13 @@
 			<style>
 				.wrap {width: <?= $imageW + 200; ?>px;}
 				a.showMenu { margin-left: 20px;font-size: 12px;}
-				.sliderHeader:hover {
-    				background-color: #E0E0E0;
-				}
 				.sliderHeader {
     				background-color: #EEE;
     				padding: 10px 5px;
+    				margin: 0;
+				}
+				.sliderHeader:hover {
+    				background-color: #E0E0E0;
 				}
 				.sliderPreview {margin-left: 200px;}
 				#submit { text-align:right; }
@@ -115,17 +121,11 @@
 							</td>
 						</tr>
 						<tr>
-							<th>
-								<label for="captions">Do you want captions:</label>
-							</th>
-							<td>
-								<input type="checkbox" name="captions" value="true" <?= $checked; ?>>
-							</td>
+							<th><label for="captions">Do you want captions:</label></th>
+							<td><input type="checkbox" name="captions" value="true" <?= $checked; ?>></td>
 						</tr>
 						<tr>
-							<th>
-								<label for="effect">Which effect would you like:</label> 
-							</th>
+							<th><label for="effect">Which effect would you like:</label></th>
 							<td>
 								<select name="effect">
 									<option value="slide" <?php if($effect == "slide") echo "selected='selected'" ?>>Slide</option>
@@ -134,26 +134,38 @@
 							</td>
 						</tr>
 						<tr>
-							<td><input class="button-primary" type="submit" name="Submit" value="Update Options" style="margin-top:10px;" /></td>
+							<td>
+								<input class="button-primary" type="submit" name="Submit" value="Update Options" style="margin-top:10px;" />
+							</td>
 						</tr>
 					</table></div><!-- end mcOptionsMenus -->
 					
-					<?php for ($i=1; $i <= $count; $i++ ) { ?>
-						<h4 class="sliderHeader">Slider Image <?= $i; ?></h4>
-						<p>
-							<input class="upload_image" type="text" name="mcSlider_image[<?= $i; ?>][image]" value="<?php echo $image[$i]['image']; ?>" style="width:<?= $imageW - 100 ?>px;">
-							<input class="upload_image_button" type="button" value="Upload Image"><br />
-							Enter a URL or upload an image
-						</p>
-						<textarea class="caption" name="mcSlider_image[<?= $i; ?>][text]" rows="11" cols="30" style="float:left;width:190px;"><?php echo $image[$i]['text']; ?></textarea>
-						<p class="sliderPreview" style="background:#aeaeae;width:<?= $imageW ?>px;height:<?= $imageH ?>px">
-							<img src="<?= plugins_url('timthumb.php', __FILE__); ?>?src=<?php echo $image[$i]['image']; ?>&amp;w=<?= $imageW ?>&amp;h=<?= $imageH ?>" width="<?= $imageW ?>" height="<?= $imageH ?>">
-						</p>
-						<p>
-							<input class="add_link" type="text" name="mcSlider_image[<?= $i; ?>][link]" value="<?php echo $image[$i]['link']; ?>" style="width:<?= $imageW - 100 ?>px;"><br />
-							Add a Link for this image (<em>Needs full URL including http://</em>)
-						</p>
+					
+					<?php sort($image); ?>
+					
+					<ul class="ui-sortable">
+					<?php for ($i=0; $i <= $count-1; $i++ ) { ?>
+						<li>
+							<input class="order" type="hidden" name="mcSlider_image[<?= $i; ?>][order]" value="<?= $image[$i]['order'] ?: $i + 1; ?>">
+							<h4 class="sliderHeader">Slider Image <?= $i+1; ?></h4>
+							<div class="slider">
+								<p>
+									<input class="upload_image" type="text" name="mcSlider_image[<?= $i; ?>][image]" value="<?php echo $image[$i]['image']; ?>" style="width:<?= $imageW - 100 ?>px;">
+									<input class="upload_image_button" type="button" value="Upload Image"><br />
+									Enter a URL or upload an image
+								</p>
+								<textarea class="caption" name="mcSlider_image[<?= $i; ?>][text]" rows="11" cols="30" style="float:left;width:190px;"><?php echo $image[$i]['text']; ?></textarea>
+								<p class="sliderPreview" style="background:#aeaeae;width:<?= $imageW ?>px;height:<?= $imageH ?>px">
+									<img src="<?= plugins_url('timthumb.php', __FILE__); ?>?src=<?php echo $image[$i]['image']; ?>&amp;w=<?= $imageW ?>&amp;h=<?= $imageH ?>" width="<?= $imageW ?>" height="<?= $imageH ?>">
+								</p>
+								<p>
+									<input class="add_link" type="text" name="mcSlider_image[<?= $i; ?>][link]" value="<?php echo $image[$i]['link']; ?>" style="width:<?= $imageW - 100 ?>px;"><br />
+									Add a Link for this image (<em>Needs full URL including http://</em>)
+								</p>
+							</div>
+						</li>
 					<?php } ?>
+					</ul>
 				
 					<p id="submit" class="submit" style=""><input type="submit" name="Submit" value="Update Options" style="margin-top:10px;" /></p>
 				</form>

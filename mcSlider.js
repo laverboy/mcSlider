@@ -1,9 +1,6 @@
 jQuery(document).ready(function($){
 	//wrap the slide sections of the admin menu in a div.slider
-	$('h4.sliderHeader').css('margin','0').each(function(){
-		$(this).nextUntil('h4.sliderHeader, #submit').wrapAll('<div class="slider" />')
-	});					
-	jQuery('div.slider').not(':first').slideUp();
+	$('div.slider').not(':first').slideUp();
 	
 	//make the div.sliders into a clickable accordian
 	$('h4.sliderHeader').css('cursor', 'pointer').click(function(){
@@ -31,4 +28,12 @@ jQuery(document).ready(function($){
 	 $(imageField).val(imgurl);
 	 tb_remove();
 	}
+	
+	$('ul.ui-sortable').sortable({
+		update: function (event, ui) {
+			$('ul.ui-sortable li').each(function (index) {
+				$(this).find('.order').val(index+1);
+			});
+		}
+	});
 });
