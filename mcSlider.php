@@ -50,7 +50,7 @@
 		//check if page is loading after form submit or just normally
         if($_POST['mcSlider_hidden'] == 'Y'){  
 	        $count = $_POST["count"]; update_option('mcSlider_count', $count);
-	        $image = $_POST["mcSlider_image"]; update_option('mcSlider_image',$image);
+	        $image = $_POST["mcSlider_image"]; $json = json_encode($image); update_option('mcSlider_image',$json);
 	        $imageW = $_POST["mcSlider_imageWidth"]; update_option('mcSlider_imageWidth', $imageW);
 	        $imageH = $_POST["mcSlider_imageHeight"]; update_option('mcSlider_imageHeight', $imageH);
 	        $captions = $_POST["captions"]; update_option('mcSlider_captions', $captions);
@@ -60,7 +60,7 @@
 	        $imageW = get_option('mcSlider_imageWidth');
 	        $imageW = (empty($imageW)) ? '600' : $imageW;
 	        $imageH = get_option('mcSlider_imageHeight');
-	        $image = get_option("mcSlider_image");
+	        $json = get_option("mcSlider_image"); $image = json_decode($json);
 	        $captions = get_option('mcSlider_captions');
 	        $effect = get_option('mcSlider_effect'); 
 	    } 
@@ -189,7 +189,7 @@
 /* ---------------------------------------- In-Page Function ------------------------------------------- */
 /* ----------------------------------------------------------------------------------------------------- */
 	function mcSlider(){
-		$slidesArray = get_option('mcSlider_image');
+		$json = get_option('mcSlider_image'); $slidesArray = json_decode($json, true);
 		$width = get_option('mcSlider_imageWidth');
         $height = get_option('mcSlider_imageHeight');
         $captions = get_option('mcSlider_captions');
