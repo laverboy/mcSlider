@@ -60,7 +60,7 @@
 	        $imageW = get_option('mcSlider_imageWidth');
 	        $imageW = (empty($imageW)) ? '600' : $imageW;
 	        $imageH = get_option('mcSlider_imageHeight');
-	        $json = get_option("mcSlider_image"); $image = json_decode($json);
+	        $json = get_option("mcSlider_image"); $image = json_decode($json, true);
 	        $captions = get_option('mcSlider_captions');
 	        $effect = get_option('mcSlider_effect'); 
 	    } 
@@ -78,7 +78,7 @@
 				});
 			</script>
 			<style>
-				.wrap {width: <?= $imageW + 200; ?>px;}
+				.wrap {width: <?= $imageW; ?>px;}
 				a.showMenu { margin-left: 20px;font-size: 12px;}
 				.sliderHeader {
     				background-color: #EEE;
@@ -88,15 +88,11 @@
 				.sliderHeader:hover {
     				background-color: #E0E0E0;
 				}
-				.sliderPreview {margin-left: 200px;}
+				.caption, .add_link {width: <?= $imageW; ?>px;}
 				#submit { text-align:right; }
 				<?php if($captions != 'true'){?>
-				.wrap {width: <?= $imageW; ?>px;}
-				.caption {
+				.captions {
 					display: none;
-				}
-				.sliderPreview {
-					margin-left: 0;
 				}
 				<?php } ?>				
 			</style>
@@ -155,12 +151,16 @@
 									<input class="upload_image_button" type="button" value="Upload Image"><br />
 									Enter a URL or upload an image
 								</p>
-								<textarea class="caption" name="mcSlider_image[<?= $i; ?>][text]" rows="11" cols="30" style="float:left;width:190px;"><?php echo $image[$i]['text']; ?></textarea>
 								<p class="sliderPreview" style="background:#aeaeae;width:<?= $imageW ?>px;height:<?= $imageH ?>px">
 									<img src="<?= plugins_url('timthumb.php', __FILE__); ?>?src=<?php echo $image[$i]['image']; ?>&amp;w=<?= $imageW ?>&amp;h=<?= $imageH ?>" width="<?= $imageW ?>" height="<?= $imageH ?>">
 								</p>
+								<p class="captions">
+								    <strong>Caption</strong><br />
+								    <textarea class="caption" name="mcSlider_image[<?= $i; ?>][text]" rows="1" cols="30" style=""><?php echo $image[$i]['text']; ?></textarea>
+								</p>
 								<p>
-									<input class="add_link" type="text" name="mcSlider_image[<?= $i; ?>][link]" value="<?php echo $image[$i]['link']; ?>" style="width:<?= $imageW - 100 ?>px;"><br />
+								    <strong>Link</strong><br />
+									<input class="add_link" type="text" name="mcSlider_image[<?= $i; ?>][link]" value="<?php echo $image[$i]['link']; ?>"><br />
 									Add a Link for this image (<em>Needs full URL including http://</em>)
 								</p>
 							</div>
@@ -177,18 +177,13 @@
 			</div><!-- end wrap -->
 	<?php } //end function mcSlider_admin()
 	
-	//load Page scripts and styles on pages where the  display function is called
-	add_action('wp_print_scripts', 'mcSlider_script_load');
-	function mcSlider_script_load(){
-		if (!is_admin()){
-			wp_enqueue_script('slides', plugins_url('slides.min.jquery.js', __FILE__), array('jquery'), '', true);	
-		}
-	}
-	
 /* ----------------------------------------------------------------------------------------------------- */
 /* ---------------------------------------- In-Page Function ------------------------------------------- */
 /* ----------------------------------------------------------------------------------------------------- */
 	function mcSlider(){
+    	wp_enqueue_script('slides', plugins_url('slider/jquery.flexslider-min.js', __FILE__), array('jquery'), '', true);
+    	wp_enqueue_style('mcSlider-sliderstyle', plugins_url('slider/flexslider.css', __FILE__));	
+    	
 		$json = get_option('mcSlider_image'); $slidesArray = json_decode($json, true);
 		$width = get_option('mcSlider_imageWidth');
         $height = get_option('mcSlider_imageHeight');
@@ -200,99 +195,34 @@
         }
         ?>
         <style>
-        	#slides { overflow: hidden; }
-        	.slides_container { width: <?= $width ?>px; height: <?= $height ?>px;}
-			.slides_container div { width: <?= $width ?>px; height: <?= $height ?>px; display: block;}
-			
-			/* Check if captions option has been ticked and show captions if it has */
-			<?php if($captions == 'true'){ ?>
-			.slides_container div span {
-				position: absolute;
-				opacity: 0;
-				top: 0;
-				left: 0;
-				background: rgba(0, 0, 0, 0.5);
-				color: #fff;
-				height: 300px;
-				width: 215px;
-				padding: 10px;
-				border-top-left-radius: 5px;
-				background:#000000;
-				filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#00000050,endColorstr=#00000050);
-				zoom: 1;
-			}
-			<?php }else{ ?>
-			.slides_container div span {display: none;}
-			<?php } ?>
-			
-			ul.pagination {
-				margin: 10px auto 0;
-				padding: 0;
-				text-align: center;
-				z-index: 50;
-				width: <?= $slideCount * 15 ?>px;
-			}
-			ul.pagination li {
-				float: left;
-				margin: 0 3px 0 0;
-				list-style: none;
-			}
-			.pagination li a {
-				display:block;
-				width:12px;
-				height:0;
-				padding-top:12px;
-				background-image:url(<?= plugins_url('pagination.png', __FILE__) ?>);
-				background-position:0 0;
-				float:left;
-				overflow:hidden;
-			}
-			.pagination li.current a {
-				background-position:0 -12px;
-			}
+        	ul.slides li {list-style: none;margin: 0;}
         </style>
-        <div id="slides"><!-- a bit of unnecessary markup for use by the slides plugin unfortunately -->
-	        <div class="slides_container">
+        <div class="flexslider" style="margin-bottom:18px;"><!-- a bit of unnecessary markup for use by the slides plugin unfortunately -->
+	        <ul class="slides">
 	        	<?php foreach($slidesArray as $slide){ 
 	        		if ($slide['image']){ $slideCount++;?>
-	        			<div>
+	        			<li>
 	        				<?php if($slide['link']) echo("<a href='". $slide['link']. "'>"); ?>
 					        	<img src="<?= plugins_url('timthumb.php', __FILE__); ?>?src=<?= $slide['image']; ?>&amp;w=<?= $width; ?>&amp;h=<?= $height; ?>">
-					        	<span class="caption"><?= $slide['text']; ?></span>
+					        	<?php if($captions && !empty($slide['text'])){ ?><p class="flex-caption"><?= $slide['text']; ?></p><?php } ?>
 					        <?php if($slide['link']) echo("</a>"); ?>
-				        </div>   
+				        </li>   
 				    <?php }//end if
 				 }//end foreach ?>
-		    </div>
+		    </ul>
 		</div>
 		<script>
 			jQuery(document).ready(function($) {
 	
 				var args = {
-					play: 3000,
-					pause: 3000,
-					slideSpeed: 800,
-					effect: 'slide',
-					crossfade: true,
-					hoverPause: true,
-					animationStart: function(current) {
-						$('.caption').animate({
-							opacity: 0
-						}, 100);
-					},
-					animationComplete: function(current) {
-						$('.caption').animate({
-							opacity: 1
-						}, 600);
-					},
-					slidesLoaded: function() {
-						$('.caption').animate({
-							opacity: 1
-						}, 700);
-					}
+				    directionNav: false,
+				    animation: "slide",
+				    slideshowSpeed: 3000,
+				    animationDuration: 600,
+				    pauseOnHover: true
 				};
-				<?php if($effect == 'fade') echo "args.effect = 'fade';"; ?>
-				$('#slides').slides(args);
+				<?php if($effect == 'fade') echo "args.animation = 'fade';"; ?>
+				$('.flexslider').flexslider(args);
 			
 			});
 		</script>
