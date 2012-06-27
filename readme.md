@@ -16,5 +16,5 @@ To Do
 * allow a nice way for images to be resized maybe through [jcrop](http://deepliquid.com/content/Jcrop.html) plugin
 * <del>allow user to choose whether they have captions or not and to enter caption for individual sliders</del>
 * <del>allow links on a per slide basis</del>
-* delete individual slides
-* a plus button to add slides, rather than a count in the settings
+* <del>delete individual slides</del>
+* <del>a plus button to add slides, rather than a count in the settings</del>
