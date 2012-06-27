@@ -83,7 +83,7 @@
 			<script type="text/template" id="slideTemplate">
     			<li>
 					<input class="order" type="hidden" name="mcSlider_image[%id%][order]" value="%id1%">
-					<a href="#" class="minus">-</a>
+					<a href="#" class="minus" alt="remove this slide">-</a>
 					<h4 class="sliderHeader" style="cursor:pointer;">Slider Image <span class="order">%id1%</span></h4>
 					<div class="slider">
 						<p>
@@ -193,7 +193,7 @@
 					<?php for ($i=0; $i <= $count-1; $i++ ) { ?>
 						<li>
 							<input class="order" type="hidden" name="mcSlider_image[<?= $i; ?>][order]" value="<?= $image[$i]['order'] ?: $i + 1; ?>">
-							<a href="#" class="minus">-</a>
+							<a href="#" class="minus" alt="remove this slide">-</a>
 							<h4 class="sliderHeader">Slider Image <span class="order"><?= $i+1; ?></span></h4>
 							<div class="slider">
 								<p>
@@ -216,7 +216,7 @@
 							</div>
 						</li>
 					<?php } ?>
-					    <a href="#" class="plus">+</a>
+					    <a href="#" class="plus" alt="add a new slide">+</a>
 					</ul>
 						<p class="help" style="float:left;">(Drag to re-arrange)</p>
 						<p id="submit" class="submit" >

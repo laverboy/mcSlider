@@ -18,3 +18,4 @@ To Do
 * <del>allow links on a per slide basis</del>
 * <del>delete individual slides</del>
 * <del>a plus button to add slides, rather than a count in the settings</del>
+* allow multiple slideshows
