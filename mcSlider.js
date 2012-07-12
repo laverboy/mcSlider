@@ -31,7 +31,7 @@ jQuery(document).ready(function($){
         e.preventDefault();
         
         var templ = $('#slideTemplate').html();
-        var id = parseInt( $('ul.ui-sortable li').last().find('.order').val() );
+        var id = parseInt( $('ul.ui-sortable li').last().find('.order').val() ) || 0;
         var slide = templ.replace(/%id%/g, id).replace(/%id1%/g, id + 1);
         $('ul.ui-sortable li').last().after(slide);
     });

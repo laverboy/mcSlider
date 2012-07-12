@@ -59,27 +59,16 @@
 	    } else {  
 	        /* $count = get_option("mcSlider_count"); */
 	        $imageW = get_option('mcSlider_imageWidth');
-	        $imageW = (empty($imageW)) ? '600' : $imageW;
+	        $imageW = (empty($imageW)) ? '960' : $imageW;
 	        $imageH = get_option('mcSlider_imageHeight');
+	        $imageH = (empty($imageH) ? '380' : $imageH);
 	        $json = get_option("mcSlider_image"); $image = json_decode($json, true);
-	        $count = count($image);
+	        $count = (count($image) == 0) ? 1 : count($image);
 	        $captions = get_option('mcSlider_captions');
 	        $effect = get_option('mcSlider_effect'); 
 	    } 
 	    if ($captions == 'true'){ $checked = "checked";}
 	    ?>
-			<script>
-				jQuery(document).ready(function($){
-					
-					<?php //if no settings have been added yet show options
-					if(!$count){ ?>
-						$('#mcOptionsMenu').parent().show();
-						$('.showMenu').text('Hide Settings');
-					<?php } ?>
-					
-				});
-			</script>
-			
 			<script type="text/template" id="slideTemplate">
     			<li>
 					<input class="order" type="hidden" name="mcSlider_image[%id%][order]" value="%id1%">
@@ -159,9 +148,9 @@
 							<tr>
 								<th><label>What size would you like your images:</label> </th>
 								<td>
-									<input style="width:40px;" type="text" name="mcSlider_imageWidth" value="<?php echo $imageW ?>">px
+									<input style="width:40px;text-align:right;" type="text" name="mcSlider_imageWidth" value="<?php echo $imageW ?>">px
 									&nbsp;x&nbsp; 
-									<input style="width:40px;" type="text" name="mcSlider_imageHeight" value="<?php echo $imageH ?>">px 
+									<input style="width:40px;text-align:right;" type="text" name="mcSlider_imageHeight" value="<?php echo $imageH ?>">px 
 									&nbsp;<em>Press Return after</em><br />
 									<em>Don't forget to crop your images to what ever size you choose here!</em> 
 								</td>
