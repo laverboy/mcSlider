@@ -35,3 +35,16 @@ d&&!i||a.pagingCount>a.controlNav.length)f.controlNav.update("add");else if("rem
 slideshow:!0,slideshowSpeed:7E3,animationSpeed:600,initDelay:0,randomize:!1,pauseOnAction:!0,pauseOnHover:!1,useCSS:!0,touch:!0,video:!1,controlNav:!0,directionNav:!0,prevText:"Previous",nextText:"Next",keyboard:!0,multipleKeyboard:!1,mousewheel:!1,pausePlay:!1,pauseText:"Pause",playText:"Play",controlsContainer:"",manualControls:"",sync:"",asNavFor:"",itemWidth:0,itemMargin:0,minItems:0,maxItems:0,move:0,start:function(){},before:function(){},after:function(){},end:function(){},added:function(){},
 removed:function(){}};d.fn.flexslider=function(h){h=h||{};if("object"===typeof h)return this.each(function(){var a=d(this),c=a.find(h.selector?h.selector:".slides > li");1===c.length?(c.fadeIn(400),h.start&&h.start(a)):void 0===a.data("flexslider")&&new d.flexslider(this,h)});var k=d(this).data("flexslider");switch(h){case "play":k.play();break;case "pause":k.pause();break;case "next":k.flexAnimate(k.getTarget("next"),!0);break;case "prev":case "previous":k.flexAnimate(k.getTarget("prev"),!0);break;
 default:"number"===typeof h&&k.flexAnimate(h,!0)}}})(jQuery);
+
+//get the slider moving
+(function(j){
+    var effect = j('.flexslider').attr('data-effect'),
+    args = {
+        directionNav: false,
+        animation: effect,
+        slideshowSpeed: 3000,
+        animationDuration: 600,
+        pauseOnHover: true
+    };
+    j('.flexslider').flexslider(args);
+})(jQuery);

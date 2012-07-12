@@ -221,7 +221,7 @@
 /* ---------------------------------------- In-Page Function ------------------------------------------- */
 /* ----------------------------------------------------------------------------------------------------- */
 	function mcSlider(){
-    	wp_enqueue_script('slides', plugins_url('slider/jquery.flexslider-min.js', __FILE__), array('jquery'), '', true);
+    	wp_enqueue_script('slides', plugins_url('slider/jquery.flexslider-min.js', __FILE__), array('jquery'));
     	wp_enqueue_style('mcSlider-sliderstyle', plugins_url('slider/flexslider.css', __FILE__));	
     	
 		$json = get_option('mcSlider_image'); $slidesArray = json_decode($json, true);
@@ -237,8 +237,8 @@
         <style>
         	ul.slides li {list-style: none;margin: 0;}
         </style>
-        <div class="flexslider" style="margin-bottom:18px;"><!-- a bit of unnecessary markup for use by the slides plugin unfortunately -->
-	        <ul class="slides">
+        <div class="flexslider" data-effect="<?= $effect; ?>" style="margin-bottom:18px;">
+            <ul class="slides">
 	        	<?php foreach($slidesArray as $slide){ 
 	        		if ($slide['image']){ $slideCount++;?>
 	        			<li>
@@ -254,14 +254,14 @@
 		<script>
 			jQuery(document).ready(function($) {
 	
-				var args = {
-				    directionNav: false,
-				    animation: "slide",
-				    slideshowSpeed: 3000,
-				    animationDuration: 600,
-				    pauseOnHover: true
-				};
-				<?php if($effect == 'fade') echo "args.animation = 'fade';"; ?>
+				var effect = $('.flexslider').attr('data-effect'),
+				    args = {
+    				    directionNav: false,
+    				    animation: effect,
+    				    slideshowSpeed: 3000,
+    				    animationDuration: 600,
+    				    pauseOnHover: true
+    				};
 				$('.flexslider').flexslider(args);
 			
 			});
