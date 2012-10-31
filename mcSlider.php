@@ -181,7 +181,7 @@
 					<ul class="ui-sortable">
 					<?php for ($i=0; $i <= $count-1; $i++ ) { ?>
 						<li>
-							<input class="order" type="hidden" name="mcSlider_image[<?= $i; ?>][order]" value="<?= $image[$i]['order'] ?: $i + 1; ?>">
+							<input class="order" type="hidden" name="mcSlider_image[<?= $i; ?>][order]" value="<?= $image[$i]['order'] ? $image[$i]['order'] : $i + 1; ?>">
 							<a href="#" class="minus" alt="remove this slide">-</a>
 							<h4 class="sliderHeader">Slider Image <span class="order"><?= $i+1; ?></span></h4>
 							<div class="slider">
