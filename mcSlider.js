@@ -33,7 +33,13 @@ jQuery(document).ready(function($){
         var templ = $('#slideTemplate').html();
         var id = parseInt( $('ul.ui-sortable li').last().find('.order').val() ) || 0;
         var slide = templ.replace(/%id%/g, id).replace(/%id1%/g, id + 1);
-        $('ul.ui-sortable li').last().after(slide);
+        
+        // add new slide with new id
+        if ( $('ul.ui-sortable li').last().length < 1 ) {
+            $('ul.ui-sortable').prepend(slide);
+        } else {
+            $('ul.ui-sortable li').last().after(slide);
+        }
     });
     
     el.find('#mcOptionsMenu').parent().hide();
