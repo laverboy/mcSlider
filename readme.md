@@ -19,3 +19,5 @@ To Do
 * <del>delete individual slides</del>
 * <del>a plus button to add slides, rather than a count in the settings</del>
 * allow multiple slideshows
+* timing option
+* fix caption weirdness
