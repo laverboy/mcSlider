@@ -81,7 +81,6 @@
                         &nbsp;x&nbsp; 
                         <input style="width:40px;text-align:right;" type="text" name="mcSlider_imageHeight" value="<?php echo $imageH ?>">px 
                         &nbsp;<em>Press Return after</em><br />
-                        <em>Don't forget to crop your images to what ever size you choose here!</em> 
                     </td>
                 </tr>
                 <tr>
