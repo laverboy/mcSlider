@@ -46,8 +46,7 @@
 /* ---------------------------------------- Display Menu Page ------------------------------------------ */
 /* ----------------------------------------------------------------------------------------------------- */
     function mcSlider_admin(){
-        $cache_dir = dirname(__FILE__) . '/cache';
-        var_dump($cache_dir, wp_mkdir_p($cache_dir));
+
         global $wpdb;
         //check if page is loading after form submit or just normally
         if($_POST['mcSlider_hidden'] == 'Y'){  
